@@ -1,0 +1,105 @@
+﻿@model EcommerceHomework.Models.ViewModels.IndexViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<br />
+<form class="form col-12" asp-action="CategoryFilter" method="post">
+    <div class="form-group">
+        <div class=" col-md-12">
+            <div class="input-group">
+                @Html.DropDownList("Categories", new SelectList(Model.Categories), "Select category to apply filter", new { @class = "form-control" })
+                <div class="input-group-addon form-group">
+                    <input class="btn btn-primary" type="submit" value="Filter" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="text-center">
+    @for (int i = 0; i < Model.Items.Count(); i = i + 3)
+    {
+        int size = Model.Items.Count();
+        User currentUser = Context.Session.Get<User>(SessionExtensions.UserKey);
+        <div class="row">
+            @if (i < size)
+            {
+                <div class="col-4">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <img class="img-responsive rounded-circle" width="200" height="200" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Items.ElementAt(i).PhotoBytes)" />
+                            <a href="/Item/Details/@Model.Items.ElementAt(i).Id">
+                                <h5 class="card-title">@Model.Items.ElementAt(i).Name</h5>
+                            </a>
+                            <p class="card-text"><b>Category :</b> @Model.Items.ElementAt(i).Category</p>
+                            <p class="card-text"><b>Price :</b> @Model.Items.ElementAt(i).Price</p>
+                            @if (currentUser != null)
+                            {
+                                <button class="btn btn-sm btn-secondary" onclick=addToBasket(@Model.Items.ElementAt(i).Id,'@currentUser.Username')>Add to cart</button>
+                                @if (currentUser.Role == UserRole.ADMIN)
+                                {
+                                    <a href="/Item/Edit/@Model.Items.ElementAt(i).Id"><button class="btn btn-sm btn-secondary">Edit</button></a>
+                                    <a href="/Item/Delete/@Model.Items.ElementAt(i).Id"><button class="btn btn-sm btn-danger">Delete</button></a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            @if ((i + 1) < size)
+            {
+                <div class="col-4">
+                    <div class="card" style="width: 18rem;">
+
+                        <div class="card-body">
+                            <img class="img-responsive rounded-circle" width="200" height="200" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Items.ElementAt(i+1).PhotoBytes)" />
+                            <a href="/Item/Details/@Model.Items.ElementAt(i+1).Id">
+                                <h5 class="card-title">@Model.Items.ElementAt(i + 1).Name</h5>
+                            </a>
+                            <p class="card-text"><b>Category :</b> @Model.Items.ElementAt(i + 1).Category</p>
+                            <p class="card-text"><b>Price :</b> @Model.Items.ElementAt(i + 1).Price</p>
+                            @if (currentUser != null)
+                            {
+                                <button class="btn btn-sm btn-secondary" onclick=addToBasket(@Model.Items.ElementAt(i+1).Id,'@currentUser.Username')>Add to cart</button>
+                                @if (currentUser.Role == UserRole.ADMIN)
+                                {
+                                    <a href="/Item/Edit/@Model.Items.ElementAt(i+1).Id"><button class="btn btn-sm btn-secondary">Edit</button></a>
+                                    <a href="/Item/Delete/@Model.Items.ElementAt(i+1).Id"><button class="btn btn-sm btn-danger">Delete</button></a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            @if ((i + 2) < size)
+            {
+                <div class="col-4">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <img class="img-responsive rounded-circle" width="200" height="200" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Items.ElementAt(i+2).PhotoBytes)" />
+                            <a href="/Item/Details/@Model.Items.ElementAt(i+2).Id">
+                                <h5 class="card-title">@Model.Items.ElementAt(i + 2).Name</h5>
+                            </a>
+                            <p class="card-text"><b>Category :</b> @Model.Items.ElementAt(i + 2).Category</p>
+                            <p class="card-text"><b>Price :</b> @Model.Items.ElementAt(i + 2).Price</p>
+                            @if (currentUser != null)
+                            {
+                                <button class="btn btn-sm btn-secondary" onclick=addToBasket(@Model.Items.ElementAt(i+2).Id,'@currentUser.Username')>Add to cart</button>
+                                @if (currentUser.Role == UserRole.ADMIN)
+                                {
+                                    <a href="/Item/Edit/@Model.Items.ElementAt(i+2).Id"><button class="btn btn-sm btn-secondary">Edit</button></a>
+                                    <a href="/Item/Delete/@Model.Items.ElementAt(i+2).Id"><button class="btn btn-sm btn-danger">Delete</button></a>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <br />
+    }
+    <br />
+</div>

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<EcommerceHomework.Models.Order>
+
+@{
+    ViewData["Title"] = "All Orders";
+}
+
+<h1>All Orders</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Order Id
+            </th>
+            <th>
+                Username
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Items
+            </th>
+            <th>
+                Order Status
+            </th>
+            <th>
+                Payment Type
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <b>@item.Id</b>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @foreach (var i in item.Items)
+                    {
+                        <a target="_blank" href="/Item/Details/@i.Id">@i.Name</a> <p> </p>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentType)
+                </td>
+                <td>
+                    <form class="form" method="post" asp-action="ChangeStatus">
+                        <input id="orderId" name="orderId" type="hidden" value="@item.Id">
+                        @Html.DropDownList("status",
+                            new SelectList(Enum.GetValues(typeof(OrderStatus))),
+                            "Change Status",
+                            new { @class = "form-control" })
+                        <input type="submit" value="Change" class="btn btn-danger" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

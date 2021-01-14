@@ -1,0 +1,107 @@
+﻿@model EcommerceHomework.Models.ViewModels.CheckoutViewModel
+
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<h1>Checkout</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Photo
+            </th>
+            <th>
+                Item Name
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                Description
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.CardItems)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    <img class="img-responsive rounded-circle" width="120" height="120" src="data:image/jpeg;base64,@Convert.ToBase64String(item.Item.Photo)" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item.Description)
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "DeleteCartItem", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.CardItems.Count() != 0)
+{
+    <div class="row">
+        <div class="col-6">
+            <div style="margin: 50px 5px">
+                <p><b>Username : </b> @Model.UserDetails.Username</p>
+                <p><b>Address  : </b> @Model.UserDetails.Address</p>
+                <p><b>Number : </b> @Model.UserDetails.PhoneNumber</p>
+                <p><b>Total Price : </b>@Model.CardItems.Sum(x => x.Item.Price).ToString()</p>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="">
+                <form asp-action="Buy" class="form" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="PaymentDetail.Name" class="control-label"></label>
+                        <input asp-for="PaymentDetail.Name" required class="form-control" />
+                        <span asp-validation-for="PaymentDetail.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PaymentDetail.CreditCard" class="control-label"></label>
+                        <input type="tel" required inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" placeholder="xxxx xxxx xxxx xxxx" asp-for="PaymentDetail.CreditCard" class="form-control" />
+                        <span asp-validation-for="PaymentDetail.CreditCard" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PaymentDetail.LastTime" class="control-label"></label>
+                        <input type="month" required min="2020-05" value="2020-06" asp-for="PaymentDetail.LastTime" class="form-control" />
+                        <span asp-validation-for="PaymentDetail.LastTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PaymentDetail.CVV" class="control-label"></label>
+                        <input type="password" maxlength="3" required asp-for="PaymentDetail.CVV" class="form-control" />
+                        <span asp-validation-for="PaymentDetail.CVV" class="text-danger"></span>
+                    </div>
+                    <div class="form-group float-right">
+                        <input type="submit" value="Buy" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+}

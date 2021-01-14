@@ -1,0 +1,69 @@
+﻿@model EcommerceHomework.Models.ViewModels.CardViewModel
+
+@{
+    ViewData["Title"] = "Cart";
+}
+
+<h1>Cart</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Photo
+            </th>
+            <th>
+                Item Name
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                Description
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.CardItems)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    <img class="img-responsive rounded-circle" width="120" height="120" src="data:image/jpeg;base64,@Convert.ToBase64String(item.Item.Photo)" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item.Description)
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "DeleteCartItem", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.CardItems.Count() != 0)
+{
+    <div class="float-right">
+        <p><b>Total Price : </b>@Model.CardItems.Sum(x => x.Item.Price).ToString()</p>
+        <a href="/User/Checkout"><button class="btn btn-primary" asp-controller="User" asp-action="Checkout">Go to Checkout</button></a>
+    </div>
+}
