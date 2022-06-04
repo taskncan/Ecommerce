@@ -25,7 +25,22 @@ Item Controller
 •	Edit  (by admin)
 •	Delete (by admin)
 
-![image](https://user-images.githubusercontent.com/44307101/171992059-b3d9fa56-8b01-4b93-b5bf-486264b23ea8.png)
+Admin Controller
+•	Can see all of the orders and update their status
+
+Extra Details
+•	User role obtained with role column in user table.
+    1 -> admin
+    0 -> user
+•	 Logged in user details stored in session with “USERKEY” key
+
+•	Folder structure
+
+•	AppContext -> Includes Db operations class
+•	Controllers -> Web application operations
+•	Models -> Includes models for database operations and view models for web app
+•	Views -> Includes view templates written by Razor syntax
+
 
 
 
