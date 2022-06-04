@@ -1,4 +1,4 @@
-# Shopping_App
+# Ecommerce 
 
 Developed with ASP.NET CORE MVC framework 3.1 version
 
